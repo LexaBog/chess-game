@@ -1,0 +1,148 @@
+.chessboard {
+    display: grid;
+    grid-template-columns: repeat(8, 60px);
+    grid-template-rows: repeat(8, 60px);
+    width: 480px;
+    height: 480px;
+    border: 2px solid black;
+}
+
+.cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.selected {
+    outline: 3px solid yellow;
+}
+
+.available-move {
+    width: 20px;
+    height: 20px;
+    background-color: rgba(0, 255, 0, 0.6);
+    border-radius: 50%;
+    margin: auto;
+}
+
+.light {
+    background-color: #f0d9b5;
+}
+
+.dark {
+    background-color: #b58863;
+}
+
+.piece {
+    cursor: pointer;
+}
+
+.white {
+    color: white;
+}
+
+.black {
+    color: black;
+}
+
+.captured-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    width: 300px;
+    height: 300px;
+    background-color: #b58863;
+}
+
+.captured {
+    text-align: center;
+    padding: 10px;
+}
+
+.captured-pieces {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.captured-piece {
+    font-size: 24px;
+    padding: 5px;
+}
+
+.check-warning {
+    background-color: red;
+    color: white;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.restart-button {
+    background-color: #ffcc00;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.restart-button:hover {
+    background-color: #ff9900;
+}
+
+.game-controls {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.restart-button {
+    background-color: #ffcc00;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.restart-button:hover {
+    background-color: #ff9900;
+}
+
+.warning-popup {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffcccc;
+    color: #900;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    border: 2px solid #900;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+.warning-popup button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+    color: #900;
+}
+
+
+
