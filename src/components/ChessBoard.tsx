@@ -34,11 +34,13 @@ const ChessBoard: React.FC<ChessBoardProps> = ({ board, setBoard, currentTurn, s
             return; // Выходим, если короля нет (не даём вызывать мат при загрузке)
         }
     
-        if (isKingInCheck(board, currentTurn)) {
-            console.log(`⚠️ Шах! Король ${currentTurn} под атакой.`);
-            setIsCheck(currentTurn);
-        } else {
-            setIsCheck(null);
+        if (board && currentTurn) {
+            if (isKingInCheck(board, currentTurn)) {
+                console.log(`⚠️ Шах! Король ${currentTurn} под атакой.`);
+                setIsCheck(currentTurn);
+            } else {
+                setIsCheck(null);
+            }
         }
     
         // ✅ Проверяем, если короля нет на доске — это мат!
