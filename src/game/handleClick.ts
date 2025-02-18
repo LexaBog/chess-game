@@ -99,24 +99,25 @@ export const handleClick = ({
         setAvailableMoves([]);
     
         // ✅ Проверяем, поставили ли шах
-        if (isKingInCheck(board, currentTurn === "white" ? "black" : "white")) { 
-            console.log(`⚠️ Шах! Король ${currentTurn === "white" ? "чёрных" : "белых"} под атакой.`);
-            setIsCheck(currentTurn === "white" ? "black" : "white"); // Записываем в state шах только врагу
-        } else {
-            setIsCheck(null); // Если шаха нет, убираем флаг
-        }
+        // if (isKingInCheck(board, currentTurn === "white" ? "black" : "white")) { 
+        //     console.log(`⚠️ Шах! Король ${currentTurn === "white" ? "чёрных" : "белых"} под атакой.`);
+        //     setIsCheck(currentTurn === "white" ? "black" : "white"); // Записываем в state шах только врагу
+        // } else {
+        //     setIsCheck(null); // Если шаха нет, убираем флаг
+        // }
     
         setCurrentTurn(prev => (prev === "white" ? "black" : "white"));
-    } else {
-        console.log("❌ Недопустимый ход! Король остаётся под шахом.");
+    } 
+    // else {
+    //     console.log("❌ Недопустимый ход! Король остаётся под шахом.");
         
-        setSelectedPiece(null);
-        setAvailableMoves([]);
+    //     setSelectedPiece(null);
+    //     setAvailableMoves([]);
     
-        // ✅ Показываем предупреждение пользователю
-        setWarningMessage("🚨 Нельзя сделать этот ход – король попадёт под шах!");
+    //     // ✅ Показываем предупреждение пользователю
+    //     setWarningMessage("🚨 Нельзя сделать этот ход – король попадёт под шах!");
     
-        return;
-    }
+    //     return;
+    // }
        
 };
