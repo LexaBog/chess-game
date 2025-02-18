@@ -29,6 +29,11 @@ const ChessBoard: React.FC<ChessBoardProps> = ({ board, setBoard, currentTurn, s
     }, [board.capturedPieces]); // ✅ Теперь состояние обновляется автоматически
     
     useEffect(() => {
+        if (!board || !board.grid.flat().some(p => p?.name === "King")) {
+            console.log("🚨 Ошибка: Король отсутствует на доске при старте игры!");
+            return; // Выходим, если короля нет (не даём вызывать мат при загрузке)
+        }
+    
         if (isKingInCheck(board, currentTurn)) {
             console.log(`⚠️ Шах! Король ${currentTurn} под атакой.`);
             setIsCheck(currentTurn);
@@ -37,12 +42,12 @@ const ChessBoard: React.FC<ChessBoardProps> = ({ board, setBoard, currentTurn, s
         }
     
         // ✅ Проверяем, если короля нет на доске — это мат!
-        if (!board.grid.flat().some(p => p?.name === "King")) {
+        if (!board.grid.flat().some(p => p?.name === "King" && p.color !== currentTurn)) {
             console.log(`♜ Мат! Победили ${currentTurn === "white" ? "чёрные" : "белые"}!`);
-            alert(`♜ Мат! Победили ${currentTurn === "white" ? "чёрные" : "белые" }!`);
-            
+            alert(`♜ Мат! Победили ${currentTurn === "white" ? "чёрные" : "белые"}!`);
         }
-    }, [board, board.grid, currentTurn]);
+    }, [board, currentTurn]);
+    
   
     const restartGame = () => {
         console.log("🔄 Перезапуск игры...");
