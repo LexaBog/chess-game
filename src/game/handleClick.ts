@@ -80,12 +80,7 @@ export const handleClick = ({
         if (piece && piece.color === currentTurn) {
             setSelectedPiece([row, col]);
             setAvailableMoves(piece.getAvailableMoves(board.grid) || []);
-            
-            // 🔍 Проверяем, не остался ли король под шахом при отмене выбора
-            if (isKingInCheck(board, currentTurn)) {
-                console.log("🚨 король под шахом!");
-                return;
-            }
+            return;
         }
         return;
     }
@@ -94,30 +89,32 @@ export const handleClick = ({
     const [fromRow, fromCol] = selectedPiece;
     console.log(`Попытка хода из (${fromRow}, ${fromCol}) в (${row}, ${col})`);
 
-    if (movePiece(board, fromRow, fromCol, row, col)) {
+    if (!movePiece(board, fromRow, fromCol, row, col)) {
+        console.log("❌ Король остаётся под шахом.");   
         setSelectedPiece(null);
-        setAvailableMoves([]);
-    
-        // ✅ Проверяем, поставили ли шах
-        if (isKingInCheck(board, currentTurn === "white" ? "black" : "white")) { 
-            console.log(`⚠️ Шах! Король ${currentTurn === "white" ? "чёрных" : "белых"} под атакой.`);
-            setIsCheck(currentTurn === "white" ? "black" : "white"); // Записываем в state шах только врагу
-        } else {
-            setIsCheck(null); // Если шаха нет, убираем флаг
-        }
-    
-        setCurrentTurn(prev => (prev === "white" ? "black" : "white"));
-    } 
-    else {
-        console.log("❌ Король остаётся под шахом.");
-        
-        setSelectedPiece(null);
-        setAvailableMoves([]);
-    
+        setAvailableMoves([]);  
         // ✅ Показываем предупреждение пользователю
-        setWarningMessage("🚨 Нельзя сделать этот ход – король попадёт под шах!");
-    
-        return;
+        // setWarningMessage("🚨 Нельзя сделать этот ход – король попадёт под шах!");  
+        // return;
     }
-       
+    setSelectedPiece(null);
+    setAvailableMoves([]);
+
+   // ✅ Проверяем шах для противника после хода
+   const opponentTurn = currentTurn === "white" ? "black" : "white";
+
+   if (isKingInCheck(board, opponentTurn)) {
+       console.log(`⚠️ Шах! Король ${opponentTurn} под атакой.`);
+       setIsCheck(opponentTurn);
+   } else {
+       setIsCheck(null);
+   }
+
+   if (board.grid[row][col]?.name === "Pawn" && (row === 0 || row === 7)) {
+    console.log("♟ Пешка достигла конца доски! Ожидание превращения...");
+    setPromotion({ row, col, color: currentTurn });
+    return;
+    }
+
+   setCurrentTurn(opponentTurn); 
 };

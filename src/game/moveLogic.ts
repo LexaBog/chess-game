@@ -30,10 +30,15 @@ export const movePiece = (
 
     // ✅ Если на клетке стоит фигура противника — бьём её
     let targetPiece = board.grid[toRow][toCol];
-    if (targetPiece && targetPiece.color !== piece.color) {
-        console.log("Фигура", targetPiece.name, "будет взята!");
-        board.capturedPieces.push(targetPiece);
-    }
+    // if (targetPiece && targetPiece.color !== piece.color) {
+    //     console.log("Фигура", targetPiece.name, "будет взята!");
+    
+    //     // ✅ Проверяем, есть ли фигура в capturedPieces перед добавлением
+    //     if (!board.capturedPieces.includes(targetPiece)) {
+    //         board.capturedPieces.push(targetPiece);
+    //     }
+    // }
+    
 
     // Обновляем положение фигуры
     board.grid[fromRow][fromCol] = null;
@@ -71,6 +76,14 @@ export const movePiece = (
         console.log(`♟ Пешка достигла конца доски на (${toRow}, ${toCol})!`);
         return "promotion";  // ✅ Теперь строка корректно возвращается
     }
+
+    if (targetPiece && targetPiece.color !== piece.color) {
+        console.log("🔴 Фигура побита:", targetPiece);
+        board.capturedPieces.push(targetPiece);
+        console.log("Список побитых фигур:", board.capturedPieces);
+    }
+    
+    
     
     return true;
 };

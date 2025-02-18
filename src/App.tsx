@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Board from "./game/Boards.ts";
 import ChessBoard from "./components/ChessBoard.tsx";
+import "./styles/ChessBoard.css"
 
 const App: React.FC = () => {
   const [board, setBoard] = useState(new Board());
@@ -17,9 +18,11 @@ const App: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>Шахматы 🚀</h1>
-      <h2>Ход: {currentTurn === "white" ? "Белые" : "Чёрные"}</h2>
+    <div> 
+      <div className="textContent">
+        {/* <h1>Шахматы 🚀</h1> */}
+        <h2>Ход: {currentTurn === "white" ? "Белые" : "Чёрные"}</h2>
+      </div>
       <ChessBoard 
         board={board} 
         setBoard={setBoard} 

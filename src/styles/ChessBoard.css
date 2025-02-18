@@ -1,3 +1,15 @@
+.fulGame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.textContent {
+    display: flex;
+    justify-content: center;
+}
+
 .chessboard {
     display: grid;
     grid-template-columns: repeat(8, 60px);
@@ -51,8 +63,8 @@
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-    width: 300px;
-    height: 300px;
+    width: 480px;
+    height: 130px;
     background-color: #b58863;
 }
 
@@ -84,11 +96,15 @@
 }
 
 .restart-button {
+    /* position: absolute;
+    top: 485px;
+    left: 180px; */
+    width: auto;
     background-color: #ffcc00;
     color: black;
     font-size: 16px;
     font-weight: bold;
-    padding: 10px 20px;
+    padding: 10px 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -103,9 +119,10 @@
 .game-controls {
     margin-top: 20px;
     text-align: center;
+    margin-top: 200px;
 }
 
-.restart-button {
+/* .restart-button {
     background-color: #ffcc00;
     color: black;
     font-size: 18px;
@@ -115,11 +132,11 @@
     border-radius: 8px;
     cursor: pointer;
     transition: 0.3s;
-}
+} */
 
-.restart-button:hover {
+/* .restart-button:hover {
     background-color: #ff9900;
-}
+} */
 
 .warning-popup {
     position: absolute;

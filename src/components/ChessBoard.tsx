@@ -22,35 +22,34 @@ const ChessBoard: React.FC<ChessBoardProps> = ({ board, setBoard, currentTurn, s
     const [isCheck, setIsCheck] = useState<"white" | "black" | null>(null);
     const [promotion, setPromotion] = useState<{ row: number, col: number, color: "white" | "black" } | null>(null);
     const [warningMessage, setWarningMessage] = useState<string | null>(null);
+    const [isFirstRender, setIsFirstRender] = useState(true); // Флаг для первого рендера
 
     useEffect(() => {
-        setCapturedWhite(board.capturedPieces.filter(piece => piece.color === "white"));
-        setCapturedBlack(board.capturedPieces.filter(piece => piece.color === "black"));
-    }, [board.capturedPieces]); // ✅ Теперь состояние обновляется автоматически
+        console.log("🔍 Обновление побитых фигур:", board.capturedPieces);
+        setCapturedWhite([...board.capturedPieces.filter(piece => piece.color === "white")]);
+        setCapturedBlack([...board.capturedPieces.filter(piece => piece.color === "black")]);
+    }, [board, currentTurn]); // Добавил `currentTurn`, чтобы обновлялось после хода
+    
     
     useEffect(() => {
-        if (!board || !board.grid.flat().some(p => p?.name === "King")) {
-            console.log("🚨 Ошибка: Король отсутствует на доске при старте игры!");
-            return; // Выходим, если короля нет (не даём вызывать мат при загрузке)
+        if (isFirstRender) {
+            setIsFirstRender(false); // 🚀 Первый рендер прошёл
+            return;
         }
-    
-        if (board && currentTurn) {
+
+        // Задержка проверки на шах (например, 10 секунд после старта)
+        const timeout = setTimeout(() => {
             if (isKingInCheck(board, currentTurn)) {
                 console.log(`⚠️ Шах! Король ${currentTurn} под атакой.`);
                 setIsCheck(currentTurn);
             } else {
                 setIsCheck(null);
             }
-        }
-    
-        // ✅ Проверяем, если короля нет на доске — это мат!
-        if (!board.grid.flat().some(p => p?.name === "King" && p.color !== currentTurn)) {
-            console.log(`♜ Мат! Победили ${currentTurn === "white" ? "чёрные" : "белые"}!`);
-            alert(`♜ Мат! Победили ${currentTurn === "white" ? "чёрные" : "белые"}!`);
-        }
-    }, [board, currentTurn]);
-    
-  
+        }, 10000); // ⏳ Проверка через 10 секунд после загрузки
+
+        return () => clearTimeout(timeout); // Очистка таймера при размонтировании
+    }, [board, currentTurn]); 
+
     const restartGame = () => {
         console.log("🔄 Перезапуск игры...");
         const newBoard = new Board(); 
@@ -59,7 +58,7 @@ const ChessBoard: React.FC<ChessBoardProps> = ({ board, setBoard, currentTurn, s
     };   
     
     return (
-        <>
+        <div className="fulGame">
             {isCheck && (
                 <div className="check-warning">
                     ⚠️ Шах! Король {isCheck === "white" ? "белых" : "чёрных"} под атакой!
@@ -121,6 +120,13 @@ const ChessBoard: React.FC<ChessBoardProps> = ({ board, setBoard, currentTurn, s
                             ))}
                         </div>
                     </div>
+                    {promotion && <PawnPromotion             
+              promotion={promotion}
+              setPromotion={setPromotion}
+              setBoard={setBoard}
+              setCurrentTurn={setCurrentTurn}
+              board={board}
+            />}
 
                     <div className="captured">
                         <h3>Битые чёрные</h3>
@@ -131,13 +137,13 @@ const ChessBoard: React.FC<ChessBoardProps> = ({ board, setBoard, currentTurn, s
                         </div>
                     </div>
                 </div>
+                    <div className="game-controls">
+                        <button className="restart-button" onClick={restartGame}>
+                            🔄 Перезапустить игру
+                        </button>
+                    </div>
             </div>
           
-            <div className="game-controls">
-                <button className="restart-button" onClick={restartGame}>
-                    🔄 Перезапустить игру
-                </button>
-            </div>
             {promotion && <PawnPromotion             
               promotion={promotion}
               setPromotion={setPromotion}
@@ -151,7 +157,7 @@ const ChessBoard: React.FC<ChessBoardProps> = ({ board, setBoard, currentTurn, s
                     <button onClick={() => setWarningMessage(null)}>✖</button>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 

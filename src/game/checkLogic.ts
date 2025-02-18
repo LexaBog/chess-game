@@ -2,9 +2,8 @@ import {Board} from "./Boards";
 // import { Piece } from "./pieces";
 
 export const isKingInCheck = (board: Board, color: "white" | "black"): boolean => {
-    // ✅ Проверяем, есть ли король на доске
+    // Если короля нет на доске — он был побит, но только не в начале игры!
     let kingPosition: [number, number] | null = null;
-
     for (let r = 0; r < board.size; r++) {
         for (let c = 0; c < board.size; c++) {
             let piece = board.grid[r][c];
@@ -15,15 +14,14 @@ export const isKingInCheck = (board: Board, color: "white" | "black"): boolean =
         }
     }
 
-    // 🚨 Если король отсутствует на доске — значит, его съели
     if (!kingPosition) {
-        console.error(`🚨 Ошибка: король ${color} был побит!`);
-        return true; // Возвращаем true, чтобы можно было проверить мат
+        console.log(`🚨 Ошибка: король ${color} отсутствует на доске!`);
+        return false; // ⚠️ Теперь он не считается под шахом
     }
 
     const [kingRow, kingCol] = kingPosition;
 
-    // 👀 Проверяем, может ли вражеская фигура атаковать короля
+    // Проверяем, атакован ли король противником
     for (let r = 0; r < board.size; r++) {
         for (let c = 0; c < board.size; c++) {
             let piece = board.grid[r][c];
@@ -38,5 +36,9 @@ export const isKingInCheck = (board: Board, color: "white" | "black"): boolean =
         }
     }
 
-    return false; // ✅ Шаха нет
+    
+    
+
+    return false;
 };
+
