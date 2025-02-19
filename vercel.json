@@ -9,7 +9,7 @@
       }
     ],
     "routes": [
-      { "src": "/(.*)", "dest": "/index.tsx" }
+      { "src": "/(.*)", "dest": "/index.html" }
     ]
   }
   
