@@ -26,7 +26,16 @@ export abstract class Piece {
         console.log(`Фигура ${this.name} (${this.color}) передвинута на [${newRow}, ${newCol}]`);
         console.log(`Ранее ходила? ${this.hasMoved}`);
         
+        // ❗ Важно: сначала сохраняем старые координаты
+        let oldRow = this.position[0];
+        let oldCol = this.position[1];
+
         this.position = [newRow, newCol];
+
+         // ✅ Проверяем, реально ли фигура сменила координаты
+        if (oldRow !== newRow || oldCol !== newCol) {
+            this.hasMoved = true;
+        }
     
         // ❗ Проверка: не меняем `hasMoved` просто так
         if (this.row !== newRow || this.col !== newCol) {

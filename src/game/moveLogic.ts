@@ -72,15 +72,15 @@ export const movePiece = (
     const whiteKingExists = board.grid.flat().some(p => p?.name === "King" && p.color === "white");
     const blackKingExists = board.grid.flat().some(p => p?.name === "King" && p.color === "black");
     
-    // if (!whiteKingExists) {
-    //     console.log("♜ Мат! Белый король отсутствует. Победили чёрные!");
-    //     alert("♜ Мат! Победили чёрные!");
-    // }
+    if (!whiteKingExists) {
+        console.log("♜ Мат! Белый король отсутствует. Победили чёрные!");
+        alert("♜ Мат! Победили чёрные!");
+    }
     
-    // if (!blackKingExists) {
-    //     console.log("♜ Мат! Чёрный король отсутствует. Победили белые!");
-    //     alert("♜ Мат! Победили белые!");
-    // }
+    if (!blackKingExists) {
+        console.log("♜ Мат! Чёрный король отсутствует. Победили белые!");
+        alert("♜ Мат! Победили белые!");
+    }
 
     // ✅ Проверяем, достигла ли пешка конца доски
     if (piece.name === "Pawn" && (toRow === 0 || toRow === 7)) {

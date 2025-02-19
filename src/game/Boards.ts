@@ -25,8 +25,9 @@ export class Board {
             this.grid[1][i] = new Pawn(1, i, "black", "Pawn");
             
             // ✅ Теперь передаем класс без `name`
-            this.grid[7][i] = new backRow[i](7, i, "white", backRow[i].name);
-            this.grid[0][i] = new backRow[i](0, i, "black", backRow[i].name);
+            this.grid[7][i] = new backRow[i](7, i, "white", backRow[i].prototype.constructor.name);
+            this.grid[0][i] = new backRow[i](0, i, "black", backRow[i].prototype.constructor.name);
+
 
         }
     }
