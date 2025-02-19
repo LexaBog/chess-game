@@ -7,6 +7,9 @@ const App: React.FC = () => {
   const [board, setBoard] = useState(new Board());
   const [currentTurn, setCurrentTurn] = useState<"white" | "black">("white");
 
+
+  console.log("🛠 Доска перед обновлением:", board.grid);
+  
   useEffect(() => {
     const newBoard = new Board();
     setBoard(newBoard);
