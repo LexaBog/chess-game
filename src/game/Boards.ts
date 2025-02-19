@@ -21,13 +21,16 @@ export class Board {
         const backRow = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook];
         
         for (let i = 0; i < 8; i++) {
-            this.grid[6][i] = new Pawn(6, i, "white", "Pawn");
+            this.grid[6][i] = new Pawn(6, i, "white", "Pawn"); // ✅ Убрали "Pawn", оно уже в классе Pawn
             this.grid[1][i] = new Pawn(1, i, "black", "Pawn");
             
+            // ✅ Теперь передаем класс без `name`
             this.grid[7][i] = new backRow[i](7, i, "white", backRow[i].name);
             this.grid[0][i] = new backRow[i](0, i, "black", backRow[i].name);
+
         }
     }
+    
    
 
     makeMove(fromRow: number, fromCol: number, toRow: number, toCol: number): boolean {
