@@ -2,6 +2,29 @@ import {Board} from "./Boards";
 // import { Piece } from "./pieces";
 
 export const isKingInCheck = (board: Board, color: "white" | "black"): boolean => {
+   
+    const whiteKingExists = board.grid.flat().some(p => p?.name === "King" && p.color === "white");
+    const blackKingExists = board.grid.flat().some(p => p?.name === "King" && p.color === "black");
+    
+    console.log("👑 Проверка королей: ", {
+        whiteKingExists,
+        blackKingExists,
+        grid: board.grid
+    });
+    
+    if (!whiteKingExists) {
+        console.error("🔥 Ошибка: король white отсутствует на доске!");
+        alert("♜ Мат! Победили чёрные!");
+    }
+    
+    if (!blackKingExists) {
+        console.error("🔥 Ошибка: король black отсутствует на доске!");
+        alert("♜ Мат! Победили белые!");
+    }
+   
+   
+   
+   
     // Если короля нет на доске — он был побит, но только не в начале игры!
     let kingPosition: [number, number] | null = null;
     for (let r = 0; r < board.size; r++) {
