@@ -5,7 +5,14 @@ export const isKingInCheck = (board: Board, color: "white" | "black"): boolean =
    
     const whiteKingExists = board.grid.flat().some(p => p?.name === "King" && p.color === "white");
     const blackKingExists = board.grid.flat().some(p => p?.name === "King" && p.color === "black");
-    
+    const king = board.grid.flat().find(p => p?.name === "King" && p.color === color);
+
+    if (!king) {
+        console.log(`⚠️ Ошибка: король ${color} не найден!`);
+        return false; // ✅ Теперь возвращает `boolean`
+    }
+
+    // return false; // ✅ Король не под шахом
     console.log("👑 Проверка королей: ", {
         whiteKingExists,
         blackKingExists,
