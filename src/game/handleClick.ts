@@ -1,9 +1,11 @@
-import React from "react"
+import {React} from "react"
 import { Board } from "../game/Boards.ts";
 import { Piece } from "../game/pieces.ts";
 import { movePiece } from "../game/moveLogic.ts";
 import { isKingInCheck } from "../game/checkLogic.ts";
 import { canCastle, performCastle } from "../game/castlingLogic.ts";
+
+// const [moveCount, setMoveCount] = useState(0);
 
 interface HandleClickParams {
     row: number;
@@ -25,6 +27,7 @@ interface HandleClickParams {
         React.SetStateAction<{ row: number; col: number; color: "white" | "black" } | null>
     >;
     setWarningMessage: React.Dispatch<React.SetStateAction<string | null>>; 
+    setMoveCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const handleClick = ({
@@ -45,7 +48,11 @@ export const handleClick = ({
     setIsCheck,
     setPromotion,
     setWarningMessage,
+    // moveCount, 
+    setMoveCount,
 }: HandleClickParams) => {
+    const clickedPiece = board.grid[row][col];
+    
     // ✅ Если кликнули по уже выбранной фигуре — отменяем выбор
     if (selectedPiece && selectedPiece[0] === row && selectedPiece[1] === col) {
         console.log("Отмена выбора фигуры");
@@ -53,6 +60,45 @@ export const handleClick = ({
         setAvailableMoves([]);
         return;
     }
+
+    // ✅ Если кликнули на другую фигуру того же цвета — просто меняем выбор
+    if (selectedPiece && clickedPiece && clickedPiece.color === currentTurn) {
+        console.log("🔄 Смена выбранной фигуры");
+        setSelectedPiece([row, col]);
+        setAvailableMoves(clickedPiece.getAvailableMoves(board.grid) || []);
+        return;
+    }
+
+    // ✅ Если фигура не выбрана, но выбрана новая фигура игрока
+    if (!selectedPiece && clickedPiece && clickedPiece.color === currentTurn) {
+        setSelectedPiece([row, col]);
+        setAvailableMoves(clickedPiece.getAvailableMoves(board.grid) || []);
+        return; // ❗️ Не передаём ход дальше
+    }
+
+    // ✅ Если был выбран ход, но он невалидный
+    if (selectedPiece && !availableMoves.some(([r, c]) => r === row && c === col)) {
+        console.log("⛔️ Нельзя сюда ходить!");
+        return;
+    }
+
+    // if (!selectedPiece) {
+    //     let piece = board.grid[row][col];
+    //     if (piece && piece.color === currentTurn) {
+    //         setSelectedPiece([row, col]);
+    //         setAvailableMoves(piece.getAvailableMoves(board.grid) || []);
+    //         return; // ❗️ НЕ передаём ход
+    //     }
+    // } else {
+    //     const [fromRow, fromCol] = selectedPiece;
+
+    //     if (movePiece(board, fromRow, fromCol, row, col)) {
+    //         setSelectedPiece(null);
+    //         setAvailableMoves([]);
+    //         setMoveCount(prev => prev + 1); // ✅ Увеличиваем ход ТОЛЬКО если движение произошло
+    //         setCurrentTurn(prev => (prev === "white" ? "black" : "white"));
+    //     }
+    // }
 
     // ✅ Проверяем рокировку, если выбрали короля
     if (selectedPiece && board.grid[selectedPiece[0]][selectedPiece[1]]) {
@@ -76,17 +122,23 @@ export const handleClick = ({
     }
 
     if (!selectedPiece) {
-        let piece = board.grid[row][col];
-        if (piece && piece.color === currentTurn) {
-            setSelectedPiece([row, col]);
-            setAvailableMoves(piece.getAvailableMoves(board.grid) || []);
-            return;
-        }
+        console.log("⚠️ Ошибка: selectedPiece = null, невозможно обработать ход");
         return;
+    }
+    const [fromRow, fromCol] = selectedPiece;
+   if (availableMoves.some(([r, c]) => r === row && c === col)) {
+        if (movePiece(board, fromRow, fromCol, row, col)) {
+            setSelectedPiece(null);
+            setAvailableMoves([]);
+            setMoveCount(prev => prev + 1);
+            setCurrentTurn(prev => (prev === "white" ? "black" : "white"));
+        } else {
+            console.log("❌ Нельзя сделать этот ход.");
+        }
     }
     
     // ✅ Обрабатываем ход
-    const [fromRow, fromCol] = selectedPiece;
+    // const [fromRow, fromCol] = selectedPiece;
     console.log(`Попытка хода из (${fromRow}, ${fromCol}) в (${row}, ${col})`);
 
     if (!movePiece(board, fromRow, fromCol, row, col)) {

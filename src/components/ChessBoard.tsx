@@ -23,6 +23,7 @@ const ChessBoard: React.FC<ChessBoardProps> = ({ board, setBoard, currentTurn, s
     const [promotion, setPromotion] = useState<{ row: number, col: number, color: "white" | "black" } | null>(null);
     const [warningMessage, setWarningMessage] = useState<string | null>(null);
     const [isFirstRender, setIsFirstRender] = useState(true); // Флаг для первого рендера
+    const [moveCount, setMoveCount] = useState(0);
 
     useEffect(() => {
         console.log("🔍 Обновление побитых фигур:", board.capturedPieces);
@@ -100,6 +101,8 @@ const ChessBoard: React.FC<ChessBoardProps> = ({ board, setBoard, currentTurn, s
                                     setIsCheck,
                                     setPromotion,
                                     setWarningMessage,
+                                    // moveCount,
+                                    setMoveCount,
                                 })}
                             >
                                 {cell ? (
@@ -121,13 +124,12 @@ const ChessBoard: React.FC<ChessBoardProps> = ({ board, setBoard, currentTurn, s
                         </div>
                     </div>
                     {promotion && <PawnPromotion             
-              promotion={promotion}
-              setPromotion={setPromotion}
-              setBoard={setBoard}
-              setCurrentTurn={setCurrentTurn}
-              board={board}
-            />}
-
+                        promotion={promotion}
+                        setPromotion={setPromotion}
+                        setBoard={setBoard}
+                        setCurrentTurn={setCurrentTurn}
+                        board={board}
+                    />}
                     <div className="captured">
                         <h3>Битые чёрные</h3>
                         <div className="captured-pieces">
@@ -143,14 +145,6 @@ const ChessBoard: React.FC<ChessBoardProps> = ({ board, setBoard, currentTurn, s
                         </button>
                     </div>
             </div>
-          
-            {promotion && <PawnPromotion             
-              promotion={promotion}
-              setPromotion={setPromotion}
-              setBoard={setBoard}
-              setCurrentTurn={setCurrentTurn}
-              board={board}
-            />}
             {warningMessage && (
                 <div className="warning-popup">
                     {warningMessage}

@@ -64,11 +64,21 @@ export const movePiece = (
         return false;
     }
     
+    if (board.grid.length === 0 || board.grid.some(row => row.length === 0)) {
+        return false; // Не проверяем мат, если доска еще не загружена
+    }
     // ✅ Проверяем, поставлен ли мат (если король побит)
-    if (!board.grid.flat().some(p => p?.name === "King" && p.color !== piece.color)) {
-        console.log(`♜ Мат! Король ${piece.color === "white" ? "чёрных" : "белых"} побит!`);
-        alert(`♜ Мат! Победили ${piece.color === "white" ? "белые" : "чёрные"}!`);
-        return true;
+    const whiteKingExists = board.grid.flat().some(p => p?.name === "King" && p.color === "white");
+    const blackKingExists = board.grid.flat().some(p => p?.name === "King" && p.color === "black");
+    
+    if (!whiteKingExists) {
+        console.log("♜ Мат! Белый король отсутствует. Победили чёрные!");
+        alert("♜ Мат! Победили чёрные!");
+    }
+    
+    if (!blackKingExists) {
+        console.log("♜ Мат! Чёрный король отсутствует. Победили белые!");
+        alert("♜ Мат! Победили белые!");
     }
 
     // ✅ Проверяем, достигла ли пешка конца доски
