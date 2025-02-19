@@ -32,24 +32,24 @@ const ChessBoard: React.FC<ChessBoardProps> = ({ board, setBoard, currentTurn, s
     }, [board, currentTurn]); // Добавил `currentTurn`, чтобы обновлялось после хода
     
     
-    useEffect(() => {
-        if (isFirstRender) {
-            setIsFirstRender(false); // 🚀 Первый рендер прошёл
-            return;
-        }
+    // useEffect(() => {
+    //     if (isFirstRender) {
+    //         setIsFirstRender(false); // 🚀 Первый рендер прошёл
+    //         return;
+    //     }
 
-        // Задержка проверки на шах (например, 10 секунд после старта)
-        const timeout = setTimeout(() => {
-            if (isKingInCheck(board, currentTurn)) {
-                console.log(`⚠️ Шах! Король ${currentTurn} под атакой.`);
-                setIsCheck(currentTurn);
-            } else {
-                setIsCheck(null);
-            }
-        }, 10000); // ⏳ Проверка через 10 секунд после загрузки
+    //     // Задержка проверки на шах (например, 10 секунд после старта)
+    //     const timeout = setTimeout(() => {
+    //         if (isKingInCheck(board, currentTurn)) {
+    //             console.log(`⚠️ Шах! Король ${currentTurn} под атакой.`);
+    //             setIsCheck(currentTurn);
+    //         } else {
+    //             setIsCheck(null);
+    //         }
+    //     }, 10000); // ⏳ Проверка через 10 секунд после загрузки
 
-        return () => clearTimeout(timeout); // Очистка таймера при размонтировании
-    }, [board, currentTurn]); 
+    //     return () => clearTimeout(timeout); // Очистка таймера при размонтировании
+    // }, [board, currentTurn]); 
 
     const restartGame = () => {
         console.log("🔄 Перезапуск игры...");
