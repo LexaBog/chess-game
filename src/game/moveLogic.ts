@@ -7,7 +7,8 @@ export const movePiece = (
     fromCol: number, 
     toRow: number, 
     toCol: number
-): boolean | "promotion" => {
+    // setPromotion?: (promotion: { row: number, col: number, color: "white" | "black" }) => void
+): boolean => {
     let piece = board.grid[fromRow][fromCol];
 
     if (!piece) {
@@ -84,7 +85,7 @@ export const movePiece = (
     // ✅ Проверяем, достигла ли пешка конца доски
     if (piece.name === "Pawn" && (toRow === 0 || toRow === 7)) {
         console.log(`♟ Пешка достигла конца доски на (${toRow}, ${toCol})!`);
-        return "promotion";  // ✅ Теперь строка корректно возвращается
+        return true  // ✅ Теперь строка корректно возвращается
     }
 
     if (targetPiece && targetPiece.color !== piece.color) {
