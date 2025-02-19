@@ -2,7 +2,6 @@
   "name": "chess",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://LexaBog.github.io/chess-game",
   "repository": {
     "type": "git",
     "url": "https://github.com/LexaBog/chess-game.git"
@@ -22,15 +21,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "build"
-      }
-    }
-  ],
   "eslintConfig": {
     "extends": [
       "react-app",
